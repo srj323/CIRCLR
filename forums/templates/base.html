@@ -1,0 +1,68 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<style>
+	@font-face {
+    font-family: Sitefont-book;
+    src: url({% static '/fonts/book.otf' %});
+}
+
+@font-face {
+    font-family: Sitefont-Medium;
+    src: url({% static '/fonts/medium.otf'%});
+}
+</style>
+<link id="favicon" rel="icon" href="{% static 'favicon.ico' %}">
+{% endblock css %}
+{% block body %}
+<div class="navbarcont" id="navbarcont">
+	<nav class="navbar" id="navbar">
+		<input type="checkbox" id="nav" class="hidden">
+		<label for="nav" class="nav-btn">
+			<i></i>
+			<i></i>
+			<i></i>
+		</label>
+		<div class="logo">
+			<a href="{% url 'home' %}"><img src="{% static '/svgs/logo.svg' %}" alt="Circlr" id="logo"></a>
+		</div>
+		<div class="nav-wrapper">
+			<ul class="navigation">
+				{% if user.is_authenticated %}
+				<li><a href="{% url 'home' %}" {% url 'home' as home %}{% if request.path == home or request.path == '/accounts/' %} class="active"{% endif %}>Home</a></li>
+				<li><a href="{% url 'matching' %}" {% if '/friends/' in request.path %}class="active"{% endif %}>Find Friends</a></li>
+				<li><a href="{% url 'chat:index' %}" {% if '/chat/' in request.path %}class="active"{% endif %}>Messaging</a></li>
+				<li><a href="{% url 'polls:index' %}" {% if '/polls/' in request.path %}class="active"{% endif %}>Polls</a></li>
+				<li><a href="{% url 'forum-home' %}" {% if '/forums/' in request.path %}class="active"{% endif %}>Forums</a></li>
+				<li class="drop">
+					<input type="checkbox" id="drop" class="hidden" />
+					<label for="drop" class="drop-btn"><span {% url 'accounts:profile' request.user.username as userpage %}{% if request.path == userpage %} class="active"{% endif %}>{{user.username}} </span><i class="arrow down"></i></label>
+					<div class="dropdown">
+						<p><a href="{% url 'accounts:profile' request.user.username %}">Profile</a></p>
+						<p><a href="{% url 'accounts:logout' %}">Logout</a></p>
+					</div>
+				</li>
+				{% else %}
+				<li><a href="{% url 'forum-home' %}">Forums</a></li>
+				<li><a href="{% url 'accounts:login'%}">Login</a></li>
+				<li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+</div>
+{% block content %}
+{% endblock content %}
+{% block chat %}
+{% endblock chat %}
+{% endblock body %}
+{% block js %}
+{{ block.super }}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+{% endblock js %}
+
+</html>

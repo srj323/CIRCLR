@@ -1,0 +1,42 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/blankmain.css' %}">
+<style>
+@font-face {
+    font-family: Sitefont-book;
+    src: url({% static '/fonts/book.otf' %});
+}
+
+@font-face {
+    font-family: Sitefont-Medium;
+    src: url({% static '/fonts/medium.otf'%});
+}
+</style>
+{% endblock css %}
+
+{% block body %}
+	<div class="navbar" id="navbar">
+		<nav>
+			<label for="nav" class="nav-btn">
+				<i></i>
+				<i></i>
+				<i></i>
+			</label>
+			<div class="logo">
+				<img src="{% static '/svgs/logo.svg' %}" alt="Circlr" id="logo">
+			</div>
+			<div class="nav-wrapper">
+				<ul class="navigation">
+						<li>Circlr</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		{% block content %}
+		{% endblock content %}
+    </div>
+    {% endblock body %}
+</html>
