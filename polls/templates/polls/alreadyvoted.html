@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}
+Can't Vote!
+{% endblock title %}
+{% block css %}
+{{block.super}}
+<style>
+    #Submit {
+        color: aqua;
+        background-color: rgb(52, 50, 51);
+        transition: all 0.1s ease;
+        cursor: pointer;
+        width: 50%;
+        border-color: aqua;
+        border-radius: 100px;
+        background: none;
+        font-family: Sitefont-medium;
+        font-size: 15px;
+        padding: 7px;
+        margin-top: 10px;
+    }
+
+    #Submit:hover {
+        color: rgb(52, 50, 51);
+        background-color: aqua;
+        transition: all 0.1s ease;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+<div class="sidepad" style="width:33%;margin-top:80px;padding:10px;float: left;"></div>
+<div class="sidepad" style="width:33%;margin-top:80px;padding:10px;float: right;"></div>
+<div class="centercontent" style="width:34%;padding:10px;float: right;">
+    <center>
+        <h1>You have already voted for this poll.</h1><br>
+        <button id="Submit" onclick='window.location.href="{{ request.path}}results"'>View Results</a>
+    </center>
+</div>
+{% endblock content %}

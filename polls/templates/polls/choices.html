@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}
+Enter Choices for your question
+{% endblock title %}
+{% block css %}
+{{block.super}}
+<style>
+    #Submit {
+        color: aqua;
+        background-color: rgb(52, 50, 51);
+        transition: all 0.1s ease;
+        cursor: pointer;
+        width: 50%;
+        border-color: aqua;
+        border-radius: 100px;
+        background: none;
+        font-family: Sitefont-medium;
+        font-size: 15px;
+        padding: 7px;
+        margin-top: 30px;
+    }
+
+    #Submit:hover {
+        color: rgb(52, 50, 51);
+        background-color: aqua;
+        transition: all 0.1s ease;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+<div class="sidepad" style="width:33%;margin-top:80px;padding:10px;float: left;"></div>
+<div class="sidepad" style="width:33%;margin-top:80px;padding:10px;float: right;"></div>
+<div class="centercontent" style="margin-top:80px;width:34%;padding:10px;float: right;">
+  <h2>Enter Your Options Here</h2>
+  <form action="{% url 'polls:savechoices' %}" method="POST"><br>
+    {% csrf_token %}
+    {% for choice in number %}
+    <label for="c{{ forloop.counter }}">Choice number {{forloop.counter}}</label>
+    <input name="choice{{ forloop.counter }}" type="text" id="c{{ forloop.counter }}" class="validate">
+    {% endfor %}
+    <input name="number" id="i1" class="hidden" value="{{ number }}" hidden>
+    <input name="question" id="i2" class="hidden" value="{{ question }}" hidden>
+    <center>
+      <button id="Submit" type="submit" name="action">Next</button>
+    </center>
+  </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+Ask a question
+{% endblock title %}
+{% block css %}
+{{block.super}}
+<style>
+    #Submit {
+        color: aqua;
+        background-color: rgb(52, 50, 51);
+        transition: all 0.1s ease;
+        cursor: pointer;
+        width: 50%;
+        border-color: aqua;
+        border-radius: 100px;
+        background: none;
+        font-family: Sitefont-medium;
+        font-size: 15px;
+        padding: 7px;
+        margin-top: 30px;
+    }
+
+    #Submit:hover {
+        color: rgb(52, 50, 51);
+        background-color: aqua;
+        transition: all 0.1s ease;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+<div class="sidepad" style="width:33%;margin-top:80px;padding:10px;float: left;"></div>
+<div class="sidepad" style="width:33%;margin-top:80px;padding:10px;float: right;"></div>
+<div class="centercontent" style="margin-top:80px;width:34%;padding:10px;float: right;">
+<h2>Register a Question</h2>
+  <form id="ajax_form1" action="{% url 'polls:choices' %}" method="POST"><br>
+    {% csrf_token %}
+    <label for="question" style="font-size:20px">Question</label>
+    <input name="question" type="text" id="question" placeholder="Enter your question for the poll." class="validate" required>
+    <br>
+    <label for="number" style="font-size:20px">No. of Choices</label>
+    <input name="number" type="number" id="number" placeholder="Enter number of choices." class="validate" required>
+    <center><button id="Submit" type="submit" name="action">Next</center>
+  </form>
+</div>
+<script type="text/javascript">
+  $(document).on('submit', '#ajax_form', function (ajax_form1) {
+    ajax_form1.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: 'polls:choices/',
+      data: {
+        question: $('#question').val(),
+        number: $('#number').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+      },
+    })
+  });
+  console.log(question.value)
+
+</script>
+{% endblock content %}
