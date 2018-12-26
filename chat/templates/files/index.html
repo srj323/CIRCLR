@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block css %}
+{{ block.super }}
+<style>
+#uploadf::-webkit-file-upload-button{
+  color: aqua;
+  background-color: rgb(52, 50, 51);
+  transition: all 0.1s ease;
+  cursor: pointer;
+  border-color: aqua;
+  border-radius: 100px;
+  background: none;
+  font-family: Sitefont-medium;
+  font-size: 15px;
+  padding: 1px 3px;
+  width: 110px;
+}
+#uploadf{
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+#Submit{
+  color: aqua;
+  background-color: rgb(52, 50, 51);
+  transition: all 0.1s ease;
+  cursor: pointer;
+  width: 150px;
+  border-color: aqua;
+  border-radius: 100px;
+  background: none;
+  font-family: Sitefont-medium;
+  font-size: 15px;
+  padding: 7px;
+  margin: 10px 0;
+}
+#Submit:hover{
+  color: rgb(52, 50, 51);
+  background-color: aqua;
+  transition: all 0.1s ease;
+}
+#download{
+  color: aqua;
+  background-color: rgb(52, 50, 51);
+  transition: all 0.1s ease;
+  cursor: pointer;
+  width: 100px;
+  border-color: aqua;
+  border-radius: 100px;
+  background: none;
+  font-family: Sitefont-medium;
+  font-size: 15px;
+  padding: 3px;
+  margin: 10px 0;
+}
+#download:hover{
+  color: rgb(52, 50, 51);
+  background-color: aqua;
+  transition: all 0.1s ease;
+}
+</style>
+{% endblock css %}
+{% block body %}
+<center>
+    {{upload_status}}<br>
+
+    <form class="" action="{% url 'fileindex' %}" method="post" enctype="multipart/form-data" >
+      {%csrf_token%}
+      <input type="file" id="uploadf" name="uploadedfile"><br>
+      <button type="submit" id="Submit" name="">Upload</button>
+    </form>
+    Your Files:<br>
+    <span id="copied" ></span><br>
+    {% if file_list %}
+    {%for file in file_list%}
+      {{file.name}}
+      <button id="download" onclick="CopyAndShare('{{file.file_id}}')">Copy Link!</button><br>
+    {%endfor%}
+    {% else %}
+      You have not uploaded any files yet.
+    {% endif %}
+    <textarea style = "display:none" id="copier"></textarea>
+  </center>
+  <script>
+  function CopyAndShare(file_id){
+
+    var copyText = document.getElementById("copier");
+    copyText.style.display="";
+    copyText.value="http://"+window.location.host+"/files/"+file_id
+    copyText.select();
+    document.execCommand("copy");
+    copyText.style.display="none";
+    document.getElementById('copied').innerHTML = "Link Copied to Clipboard";
+  };
+  function closeWin()   // Tested Code
+  {
+    var someIframe = window.parent.document.getElementById('files_frame');
+    someIframe.parentNode.removeChild(window.parent.document.getElementById('files_frame'));
+  };
+  </script>
+{% endblock body %}
